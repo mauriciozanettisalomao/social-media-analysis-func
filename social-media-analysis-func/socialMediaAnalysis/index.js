@@ -2,10 +2,10 @@ var Connection = require('tedious').Connection;
 var Request = require('tedious').Request
 var TYPES = require('tedious').TYPES;
 
-module.exports = function (context, myTimer) {
+module.exports = function (context, req)  {
 
     const defaultCount = 5
-    const score = 0.5
+    const defaultScore = 0.5
 
     let twitters = new Array();
 
@@ -32,8 +32,13 @@ module.exports = function (context, myTimer) {
     });
 
     let count = defaultCount
-    if (context.request.query.count) {
-        count=context.request.query.count
+    if (req.query.count) {
+        count=req.query.count
+    }
+
+    let score = defaultScore
+    if (req.query.score) {
+        score=req.query.score
     }
 
     function getMentions() {
